@@ -1,0 +1,32 @@
+const express = require("express");
+const path = require("node:path");
+const passport = require("passport");
+//const session = require('./config/session.js') //TODO
+//const { accountRouter } = require('./routers/accountRouter.js') //TODO
+//const { fileRouter } = require('./routers/fileRouter.js') //TODO
+
+//TODO
+//require('./config/passport.js')
+
+const PORT = 3000;
+
+const app = express();
+
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
+app.use(express.urlencoded({ extended: false }));
+
+//app.use(session()) //TODO
+app.use(passport.session());
+
+app.use((req, res, next) => {
+  res.locals.currentUser = req.user;
+  next();
+});
+
+app.listen(PORT, (err) => {
+  if (err) {
+    throw err;
+  }
+  console.log(`listening on PORT ${PORT}`);
+});
