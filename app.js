@@ -1,12 +1,11 @@
 const express = require("express");
 const path = require("node:path");
 const passport = require("passport");
-//const session = require('./config/session.js') //TODO
+const session = require("./config/session.js");
 //const { accountRouter } = require('./routers/accountRouter.js') //TODO
 //const { fileRouter } = require('./routers/fileRouter.js') //TODO
 
-//TODO
-//require('./config/passport.js')
+require("./config/passport.js");
 
 const PORT = 3000;
 
@@ -16,7 +15,7 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.urlencoded({ extended: false }));
 
-//app.use(session()) //TODO
+app.use(session());
 app.use(passport.session());
 
 app.use((req, res, next) => {
