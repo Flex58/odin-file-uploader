@@ -1,6 +1,6 @@
 const expressSession = require("express-session");
 require("dotenv").config();
-const pool = require("../lib/prisma");
+const pool = require("../lib/prisma.js");
 const { PrismaSessionStore } = require("@quixo3/prisma-session-store");
 
 module.exports = function () {
