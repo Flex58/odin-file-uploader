@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<body>
+		<% if(currentUser) { %>
+		<h1>Welcome Back</h1>
+		<!-- Log out and CRUD user files/folders-->
+		<% } else { %>
+			<a href="/account/sign-in"><button>Sign In</button></a>
+			<a href="/account/sign-up"><button>Sign Up</button></a>
+		}	
+</body>
+</html>
