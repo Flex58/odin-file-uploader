@@ -69,7 +69,7 @@ exports.postSignUp = [
 ];
 
 exports.getSignIn = (req, res) => {
-  res.render("sign-in", { message: req.session.message });
+  res.render("sign-in", { message: req.session.messages });
 };
 
 exports.postSignIn = passport.authenticate("local", {

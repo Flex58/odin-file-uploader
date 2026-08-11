@@ -7,7 +7,8 @@
 </head>
 <body>
 		<% if(currentUser) { %>
-		<h1>Welcome Back</h1>
+		<h1>Welcome Back <%= currentUser.name %></h1>
+		<a href="/account/sign-out"><button type="button">Sign Out</button></a>
 		<!-- Log out and CRUD user files/folders-->
 		<% } else { %>
 			<a href="/account/sign-in"><button>Sign In</button></a>
