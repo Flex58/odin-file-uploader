@@ -67,3 +67,13 @@ exports.postSignUp = [
     }
   },
 ];
+
+exports.getSignIn = (req, res) => {
+  res.render("sign-in", { message: req.session.message });
+};
+
+exports.postSignIn = passport.authenticate("local", {
+  successRedirect: "/",
+  failureRedirect: "/account/sign-in",
+  failureMessage: true,
+});
