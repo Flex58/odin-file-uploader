@@ -4,27 +4,30 @@ const queries = require("../lib/queries.js");
 const bcrypt = require("bcryptjs");
 
 passport.use(
-  new LocalStrategy(async (email, password, done) => {
-    try {
-      const user = await queries.getUserByEmail(email);
+  new LocalStrategy(
+    { usernameField: "email" },
+    async (email, password, done) => {
+      try {
+        const user = await queries.getUserByEmail(email);
 
-      if (!user) {
-        return done(null, false, { message: "Incorrect Email or Password" });
+        if (!user) {
+          return done(null, false, { message: "Incorrect Email or Password" });
+        }
+
+        const match = bcrypt.compare(password, user.password);
+
+        if (!match) {
+          return done(null, false, {
+            message: "Incorrect Email or Password",
+            email: email,
+          });
+        }
+        return done(null, user);
+      } catch (err) {
+        return done(err);
       }
-
-      const match = bcrypt.compare(password, user.password);
-
-      if (!match) {
-        return done(null, false, {
-          message: "Incorrect Email or Password",
-          email: email,
-        });
-      }
-      return done(null, user);
-    } catch (err) {
-      return done(err);
-    }
-  }),
+    },
+  ),
 );
 
 passport.serializeUser((user, done) => {
