@@ -9,14 +9,14 @@
 		<h1>Sign In</h1>
 		<% if(locals.message) { %>
 				<p><%= message[0] %></p>
-		<% } >%
+		<% } %>
 		<form action="/account/sign-in" method="post">
 			<div>
-				<label for="email">E-mail</label>
+				<label for="email">Email</label>
 				<input type="email" name="email" id="email">
 			</div>
 			<div>
-				<label for="password">password</label>
+				<label for="password">Password</label>
 				<input type="password" name="password" id="password">
 			</div>
 			<button type="submit">Sign In</button>
