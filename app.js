@@ -2,7 +2,7 @@ const express = require("express");
 const path = require("node:path");
 const passport = require("passport");
 const session = require("./config/session.js");
-//const { accountRouter } = require('./routers/accountRouter.js') //TODO
+const { accountRouter } = require("./routers/accountRouter.js");
 //const { fileRouter } = require('./routers/fileRouter.js') //TODO
 
 require("./config/passport.js");
@@ -23,6 +23,7 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use("/account", accountRouter);
 app.get("/", (req, res) => {
   res.render("index");
 });
