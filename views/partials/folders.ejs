@@ -1,0 +1,25 @@
+<div>
+	<% if(folders) { %>
+	<% folders.forEach((f) => { %>
+		<div id="<%= f.id %>">
+			<h3><%= f.name %></h3>
+			<% if(f.folders)  { %>
+				<% f.folders.forEach((sf) => { %>
+					<p>Folder: <%= sf.name %></p>		
+				<% }) %>
+			<% } %>
+			<% if(f.files)  { %>
+				<% f.files.forEach((sf) => { %>
+					<p>File: <%= sf.name %></p>		
+				<% }) %>
+			<% } %>
+			<form action="/files/<%= f.id %>/delete" method="get">
+				<button type="submit">Delete</button>
+			</form>
+			<form action="/files/<%= f.id %>" method="get">
+				<button type="submit">View</button>
+			</form>
+		</div>
+	<% }) %>
+	<% } %>
+</div>   
