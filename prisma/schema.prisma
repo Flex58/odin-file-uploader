@@ -29,7 +29,7 @@ model Files {
 		path String //file path if local, or link when public
 		author User @relation(fields: [authorId], references: [id])
 		authorId Int
-		folder Folder @relation(fields: [folderId], references: [id])
+		folder Folder @relation(fields: [folderId], references: [id], onDelete: Cascade)
 		folderId Int 
 	}
 
@@ -38,8 +38,8 @@ model Folder {
 		name String //unique per user setup logic
 		files Files[]
 		folders Folder[] @relation("Folders")
-		folder	Folder @relation("Folders", fields: [folderId], references: [id])
-		folderId Int
+		folder	Folder? @relation("Folders", fields: [folderId], references: [id])
+		folderId Int?
 		author User @relation(fields: [authorId], references: [id])
 		authorId Int
 	}
