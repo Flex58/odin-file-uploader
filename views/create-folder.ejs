@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Create Folder</title>
+</head>
+<body>
+		<%- include('partials/errors.ejs') %>
+		<form action="/files/create-folder" method="post">
+			<div>
+				<label for="folder">Name: </label>
+				<input type="text" name="folder" id="folder">
+			</div>
+			<button type="submit">Create Folder</button>
+		</form>
+</body>
+</html>
