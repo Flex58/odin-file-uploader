@@ -11,8 +11,19 @@ const fileFilter = (req, file, cb) => {
   return cb(null, true);
 };
 
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, path.join(__dirname, "..", "uploads/"));
+  },
+  filename: (req, file, cb) => {
+    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+    const ext = path.extname(file.originalname).toLowerCase();
+    cb(null, file.fieldname + "-" + uniqueSuffix + ext);
+  },
+});
+
 const upload = multer({
-  dest: path.join(__dirname, "..", "uploads/"),
+  storage: storage,
   fileFilter,
   limits: {
     fileSize: 20 * 1024 * 1024, //20MB
@@ -107,17 +118,25 @@ exports.postEditFolder = [
 ];
 
 exports.getUploadFile = (req, res) => {
-  //need folderId from params
-  res.render("upload-file");
+  res.render("upload-file", { folderId: req.params.folderId });
 };
 
-((exports.postUploadFile = upload.single("image")),
+exports.postUploadFile = [
+  upload.single("image"),
   async (req, res, next) => {
     try {
-      //need folderID and userID
-      await db.uploadFile(req.file);
-      res.redirect("/");
-    } catch (error) {
+      const folderId = req.params.folderId;
+      const authorId = req.user.id;
+      const file = await db.uploadFile(
+        req.file.filename,
+        req.file.size,
+        req.file.path,
+        authorId,
+        parseInt(folderId),
+      );
+      res.redirect(`/files/${folderId}/${file.id}`);
+    } catch (err) {
       return next(err);
     }
-  });
+  },
+];
