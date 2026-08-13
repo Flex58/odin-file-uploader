@@ -13,5 +13,6 @@ fileRouter.get("/:folderId/edit", fileController.getEditFolder);
 fileRouter.post("/:folderId/edit", fileController.postEditFolder);
 fileRouter.get("/:folderId/upload", fileController.getUploadFile);
 fileRouter.post("/:folderId/upload", fileController.postUploadFile);
+fileRouter.get("/:folderId/:fileId", fileController.getFile);
 
 module.exports = { fileRouter };

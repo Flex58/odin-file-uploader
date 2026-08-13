@@ -140,3 +140,15 @@ exports.postUploadFile = [
     }
   },
 ];
+
+exports.getFile = async (req, res, next) => {
+  const fileId = parseInt(req.params.fileId);
+  try {
+    const file = await db.getFileById(fileId);
+    file.size = Number(file.size / 1024 / 1024, 2).toFixed(2) + "MB";
+    file.uploadTime = new Date(file.uploadTime).toLocaleString("en-GB");
+    res.render("view-file", { file: file });
+  } catch (err) {
+    next(err);
+  }
+};
