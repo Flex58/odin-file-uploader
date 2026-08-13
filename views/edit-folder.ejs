@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Edit Folder</title>
+</head>
+<body>
+		<%- include('partials/errors.ejs') %>
+		<form action="/files/<%= param %>/edit" method="post">
+			<div>
+				<label for="folder">Name: </label>
+				<input type="text" name="folder" id="folder" value='<%= name %>'>
+			</div>
+			<button type="submit">Submit</button>
+		</form>
+		<form action="/files/<%= param %>" method="get">
+			<button type="submit">Cancel</button>
+		</form>
+</body>
+</html>
