@@ -37,7 +37,7 @@ const folderValidation = [
 ];
 
 exports.getCreateFolder = (req, res) => {
-  res.render("create-folder");
+  res.render("create-folder", { param: req.params.folderId });
 };
 
 exports.postCreateFolder = [
@@ -50,7 +50,7 @@ exports.postCreateFolder = [
         .render("create-folder", { errors: errors.array() });
     }
     const data = matchedData(req);
-    const folderParentID = req.params.folderId || null;
+    const folderParentID = parseInt(req.params.folderId) || null;
     const authorId = req.user.id;
     try {
       const newFolderId = await db.createFolder(
@@ -58,7 +58,7 @@ exports.postCreateFolder = [
         data.folder,
         folderParentID,
       );
-      res.render("/files/" + newFolderId.id);
+      res.redirect("/files/" + newFolderId.id);
     } catch (err) {
       return next(err);
     }
@@ -73,6 +73,38 @@ exports.getViewFolder = async (req, res, next) => {
     next(err);
   }
 };
+
+exports.getEditFolder = async (req, res, next) => {
+  try {
+    const param = req.params.folderId;
+    const folder = await db.getFolderById(parseInt(param));
+    res.render("edit-folder", { param: param, name: folder.name });
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.postEditFolder = [
+  folderValidation,
+  async (req, res, next) => {
+    const errors = validationResult(req);
+    const folderId = req.params.folderId;
+    if (!errors.isEmpty()) {
+      return res.status(400).render("edit-folder", {
+        errors: errors.array(),
+        param: folderId,
+        name: req.body.name,
+      });
+    }
+    const data = matchedData(req);
+    try {
+      await db.updateFolderName(parseInt(folderId), data.folder);
+      res.redirect("/files/" + folderId);
+    } catch (err) {
+      next(err);
+    }
+  },
+];
 
 exports.getUploadFile = (req, res) => {
   //need folderId from params
