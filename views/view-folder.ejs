@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title><%= folder.name %></title>
+</head>
+<body>
+		<div>
+			<h1><%= folder.name %></h1>
+			<a href="/files/<%= folder.id %>/edit"><button type="button">Edit Folder</button></a>
+			<a href="/files/<%= folder.id %>/delete"><button type="button">Delete Folder</button></a>
+		</div>
+
+		<div>
+			<a href="/files/<%= folder.id %>/upload"><button type="button">Upload Image</button></a>
+			<a href="/files/<%= folder.id %>/create-folder"><button type="button">Create Folder</button></a>
+		</div>
+		
+		<div>
+			<% if(folder.folders) { %>
+				<% folder.folders.forEach((sf) => { %>
+						<p>Folder: <%= sf.name %></p>
+						<a href="/files/<%= sf.id %>"><button type="button">View</button></a>
+					<% }) %>
+			<% } %>
+			<% if(folder.files) { %>
+				<% folder.files.forEach((sf) => { %>
+						<p>Image: <%= sf.name %></p>
+						<a href="/files/<%= folder.id %>/<%= sf.id %>"><button type="button">View</button></a>
+					<% }) %>		
+			<% } %>
+		</div>
+</body>
+</html>
