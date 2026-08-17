@@ -81,6 +81,7 @@ exports.postCreateFolder = [
 exports.getViewFolder = async (req, res, next) => {
   try {
     const folder = await db.getFolderById(parseInt(req.params.folderId));
+    if (!folder) throw new CustomNotFoundError("Folder not found");
     res.render("view-folder", { folder: folder });
   } catch (err) {
     next(err);
@@ -91,6 +92,7 @@ exports.getEditFolder = async (req, res, next) => {
   try {
     const param = req.params.folderId;
     const folder = await db.getFolderById(parseInt(param));
+    if (!folder) throw new CustomNotFoundError("Folder not found");
     res.render("edit-folder", { param: param, name: folder.name });
   } catch (err) {
     next(err);
@@ -118,6 +120,27 @@ exports.postEditFolder = [
     }
   },
 ];
+
+exports.getDeleteFolder = (req, res) => {
+  res.render("delete-folder", { folderId: req.params.folderId });
+};
+
+exports.postDeleteFolder = async (req, res, next) => {
+  const folderId = parseInt(req.params.folderId);
+  try {
+    const folder = await db.getFolderById(folderId);
+    if (!folder) throw new CustomNotFoundError("Folder not found");
+    if (folder.files) {
+      for await (const file of folder.files) {
+        await unlinkFile(file.id);
+      }
+    }
+    await db.deleteFolder(folderId);
+    res.redirect("/");
+  } catch (err) {
+    next(err);
+  }
+};
 
 exports.getUploadFile = (req, res) => {
   res.render("upload-file", { folderId: req.params.folderId });
@@ -198,6 +221,7 @@ exports.postDeleteFile = async (req, res, next) => {
 
 const unlinkFile = async (id) => {
   const file = await db.getFileById(id);
+  if (!file) throw new CustomNotFoundError("File not found");
   unlink(file.path, (err) => {
     if (err) throw err;
   });
