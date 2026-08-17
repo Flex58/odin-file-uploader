@@ -5,6 +5,7 @@ const session = require("./config/session.js");
 const { accountRouter } = require("./routers/accountRouter.js");
 const fetchFolders = require("./middleware/fetchFolders.js").fetchFolders;
 const { fileRouter } = require("./routers/fileRouter.js");
+const { authCheck } = require("./middleware/authCheck.js");
 
 require("./config/passport.js");
 
@@ -25,7 +26,7 @@ app.use((req, res, next) => {
 });
 
 app.use("/account", accountRouter);
-app.use("/files", fileRouter);
+app.use("/files", authCheck, fileRouter);
 app.get("/", fetchFolders, (req, res) => {
   res.render("index");
 });
