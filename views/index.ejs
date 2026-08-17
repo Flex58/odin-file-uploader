@@ -7,9 +7,19 @@
 </head>
 <body>
 		<% if(currentUser) { %>
-		<h1>Welcome Back <%= currentUser.name %></h1>
-		<a href="/account/sign-out"><button type="button">Sign Out</button></a>
+		<div>
+			<h1>Welcome Back <%= currentUser.name %></h1>
+			<a href="/account/sign-out"><button type="button">Sign Out</button></a>
+		</div>
+		<a href="/files/create-folder"><button type="button">Create a Folder</button></a>
+
+		<h2>Folders: </h2>
+
+		<%- include('partials/folders.ejs') %>
+
 		<!-- Log out and CRUD user files/folders-->
+		<!-- PREVIEW EACH FOLDER SHOWING CONTENTS, CLICK TO GET TO FOLDER PAGE
+					FOR CRUD AND UPLOADING FILES -->
 		<% } else { %>
 			<a href="/account/sign-in"><button>Sign In</button></a>
 			<a href="/account/sign-up"><button>Sign Up</button></a>
