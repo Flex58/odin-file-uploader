@@ -12,7 +12,7 @@
 				<a href="/files/<%= file.folderId %>/<%= file.id %>/delete"><button type="button">Delete</button></a>
 		</div>
 		<div>
-			<img src="" alt="Image of <%= file.name %>">
+			<img src="/files/<%= file.folderId %>/<%= file.id %>/raw" alt="Image of <%= file.name %>">
 			<p>Size: <%= file.size %></p>
 			<p>Date: <%= file.uploadTime %></p>
 		</div>
