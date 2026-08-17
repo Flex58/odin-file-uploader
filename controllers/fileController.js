@@ -152,3 +152,14 @@ exports.getFile = async (req, res, next) => {
     next(err);
   }
 };
+
+exports.getFileRaw = async (req, res, next) => {
+  const fileId = parseInt(req.params.fileId);
+  try {
+    const file = await db.getFileById(fileId);
+    if (!file) res.status(404);
+    res.sendFile(file.path);
+  } catch (err) {
+    next(err);
+  }
+};
