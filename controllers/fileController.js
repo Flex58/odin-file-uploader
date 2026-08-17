@@ -2,6 +2,8 @@ const multer = require("multer");
 const db = require("../lib/queries");
 const { body, validationResult, matchedData } = require("express-validator");
 const path = require("path");
+const { unlink } = require("fs");
+const CustomNotFoundError = require("../errors/CustomNotFoundErrror");
 
 const fileFilter = (req, file, cb) => {
   const allowedMimes = ["image/jpeg", "image/png", "image/webp"];
@@ -145,6 +147,7 @@ exports.getFile = async (req, res, next) => {
   const fileId = parseInt(req.params.fileId);
   try {
     const file = await db.getFileById(fileId);
+    if (!file) throw new CustomNotFoundError("File not found");
     file.size = Number(file.size / 1024 / 1024, 2).toFixed(2) + "MB";
     file.uploadTime = new Date(file.uploadTime).toLocaleString("en-GB");
     res.render("view-file", { file: file });
@@ -157,7 +160,7 @@ exports.getFileRaw = async (req, res, next) => {
   const fileId = parseInt(req.params.fileId);
   try {
     const file = await db.getFileById(fileId);
-    if (!file) res.status(404);
+    if (!file) throw new CustomNotFoundError("File not found");
     res.sendFile(file.path);
   } catch (err) {
     next(err);
@@ -168,9 +171,34 @@ exports.getFileDownload = async (req, res, next) => {
   const fileId = parseInt(req.params.fileId);
   try {
     const file = await db.getFileById(fileId);
-    if (!file) res.status(404);
+    if (!file) throw new CustomNotFoundError("File not found");
     res.download(file.path);
   } catch (err) {
     next(err);
   }
+};
+
+exports.getDeleteFile = async (req, res) => {
+  res.render("delete-file", {
+    folderId: req.params.folderId,
+    fileId: req.params.fileId,
+  });
+};
+
+exports.postDeleteFile = async (req, res, next) => {
+  const fileId = parseInt(req.params.fileId);
+  try {
+    await unlinkFile(fileId);
+    await db.deleteFileById(fileId);
+    res.redirect(`files/${req.params.folderId}`);
+  } catch (err) {
+    next(err);
+  }
+};
+
+const unlinkFile = async (id) => {
+  const file = await db.getFileById(id);
+  unlink(file.path, (err) => {
+    if (err) throw err;
+  });
 };

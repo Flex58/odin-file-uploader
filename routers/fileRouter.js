@@ -15,6 +15,8 @@ fileRouter.get("/:folderId/upload", fileController.getUploadFile);
 fileRouter.post("/:folderId/upload", fileController.postUploadFile);
 fileRouter.get("/:folderId/:fileId/raw", fileController.getFileRaw);
 fileRouter.get("/:folderId/:fileId/download", fileController.getFileDownload);
+fileRouter.get("/:folderId/:fileId/delete", fileController.getDeleteFile);
+fileRouter.post("/:folderId/:fileId/delete", fileController.postDeleteFile);
 fileRouter.get("/:folderId/:fileId", fileController.getFile);
 
 module.exports = { fileRouter };
