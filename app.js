@@ -3,7 +3,8 @@ const path = require("node:path");
 const passport = require("passport");
 const session = require("./config/session.js");
 const { accountRouter } = require("./routers/accountRouter.js");
-//const { fileRouter } = require('./routers/fileRouter.js') //TODO
+const fetchFolders = require("./middleware/fetchFolders.js").fetchFolders;
+const { fileRouter } = require("./routers/fileRouter.js");
 
 require("./config/passport.js");
 
@@ -24,7 +25,8 @@ app.use((req, res, next) => {
 });
 
 app.use("/account", accountRouter);
-app.get("/", (req, res) => {
+app.use("/files", fileRouter);
+app.get("/", fetchFolders, (req, res) => {
   res.render("index");
 });
 
