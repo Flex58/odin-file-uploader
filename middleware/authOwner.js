@@ -9,9 +9,10 @@ exports.authOwner = async (req, res, next) => {
       throw new CustomForbiddenError(
         "You do not have permssion to view this site",
       );
+    } else {
+      next();
     }
   } catch (err) {
     next(err);
   }
-  next();
 };
