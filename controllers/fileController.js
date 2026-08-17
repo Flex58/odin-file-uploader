@@ -163,3 +163,14 @@ exports.getFileRaw = async (req, res, next) => {
     next(err);
   }
 };
+
+exports.getFileDownload = async (req, res, next) => {
+  const fileId = parseInt(req.params.fileId);
+  try {
+    const file = await db.getFileById(fileId);
+    if (!file) res.status(404);
+    res.download(file.path);
+  } catch (err) {
+    next(err);
+  }
+};
