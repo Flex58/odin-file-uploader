@@ -17,6 +17,7 @@
   },
 	"scripts": {
 		"dev": "node app.js",
-		"prod": "NODE_ENV=production node app.js"
+		"prod": "NODE_ENV=production node app.js",
+		"studio": "prisma studio --port 49152"
 	}
 }
