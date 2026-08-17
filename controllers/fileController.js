@@ -190,7 +190,7 @@ exports.postDeleteFile = async (req, res, next) => {
   try {
     await unlinkFile(fileId);
     await db.deleteFileById(fileId);
-    res.redirect(`files/${req.params.folderId}`);
+    res.redirect(`/files/${req.params.folderId}`);
   } catch (err) {
     next(err);
   }
