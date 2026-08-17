@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Delete Folder</title>
+</head>
+<body>
+		<form action="/files/<%= folderId %>/delete" method="post">
+			<h1>Are you sure you want to delete this folder and all of it's files?</h1>
+			<p>This folders subfolders will not be deleted</p>
+			<button type="submit">Yes</button>
+			<a href="/files/<%= folderId %>"><button type="button">Cancel</button></a>
+		</form>
+</body>
+</html>
