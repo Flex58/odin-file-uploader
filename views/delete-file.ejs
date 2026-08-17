@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Delete File</title>
+</head>
+<body>
+		<form action="/files/<%= folderId %>/<%= fileId%>/delete" method="post">
+			<h1>Are you sure you want to delete this file?</h1>
+			<button type="submit">Yes</button>
+			<a href="/files/<%= folderId %>/<%= fileId%>"><button type="button">Cancel</button></a>
+		</form>
+</body>
+</html>
